@@ -29,6 +29,9 @@ class MysqlDatabase
 		if (!$result) {
 			die('Invalid query: ' . mysql_error());
 		}
+		if (is_bool($result)) {
+			return;
+		}
 		while($row = mysql_fetch_array($result)) {
 			if(!is_null($iter_func)){
 				$iter_func($row);

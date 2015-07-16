@@ -2,13 +2,16 @@
 
 class CharAssembler {
 
-	static function getOneRandomChar(){
-		$characters = '0123456789abcdefghijklmnopqrxtuvwxyzABCDEFGHIJKLMNOPQRXTUVWXYZ';
-		return $characters[mt_rand(0, strlen($characters) - 1)];
+	public static function getOneRandomChar(){
+		$characters = array_merge(range(48, 57), range(65, 90), range(97, 123));
+		return chr(mt_rand(0, count($characters) - 1));
+
+		# $characters = '0123456789abcdefghijklmnopqrxtuvwxyzABCDEFGHIJKLMNOPQRXTUVWXYZ';
+		# return $characters[mt_rand(0, strlen($characters) - 1)];
 		# return substr($characters,rand(0, strlen($characters) - 1),1);
 	}
 
-	static function getRandomCharacters($length) {
+	public static function getRandomCharacters($length) {
 		$result = '';
 		for($i = 0; $i < $length; $i++){
 			$result .= self::getOneRandomChar(); 
@@ -16,7 +19,7 @@ class CharAssembler {
 		return $result;
 	}
 	
-	static function getASCIIValue($indexes, $string)
+	public static function getASCIIValue($indexes, $string)
 	{
 		$value = 0;
 		foreach ($indexes as $i) {

@@ -2,17 +2,17 @@
 
 class ImageAttribute {
 
-	static function getWidth($image_path) {
+	public static function getWidth($image_path) {
 		$img_info = getimagesize($image_path);
 		return $img_info[0];
 	}
 
-	static function getHeight($image_path) {
+	public static function getHeight($image_path) {
 		$img_info = getimagesize($image_path);
 		return $img_info[1];
 	}
 
-	static function getType($image_path) {
+	public static function getType($image_path) {
 		$img_info = getimagesize($image_path);
 		switch($img_info[2]){
 		case 1:

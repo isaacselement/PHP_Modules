@@ -2,12 +2,12 @@
 
 class FileManager {
 
-	static function replaceExtension($filename, $new_extension) {
+	public static function replaceExtension($filename, $new_extension) {
 		$info = pathinfo($filename);
 		return $info['dirname'] . '/' . $info['filename'] . '.' . $new_extension;
 	}
 
-	static function requireFilesIn($directory) {
+	public static function requireFilesIn($directory) {
 		$php_ex = substr($directory, -1) == '/' ? '*.php' : '/*.php';
 		foreach (glob($directory . $php_ex) as $filename) {
 			require_once($filename);
@@ -16,13 +16,13 @@ class FileManager {
 		exit();
 	}
 
-	static function listFilesIn($directory)
+	public static function listFilesIn($directory)
 	{
 		$scanned_directory = array_diff(scandir($directory), array('..', '.'));
 		return $scanned_directory;
 	}
 
-	static function listFilesRecursivelyIn($directory)
+	public static function listFilesRecursivelyIn($directory)
 	{
 		$result = array();
 		$handler = opendir($directory);
@@ -43,7 +43,7 @@ class FileManager {
 		return $result;
 	}
 
-	static function writeFileToEcho($file_path)
+	public static function writeFileToEcho($file_path)
 	{
 		$fp = fopen($file_path,'r');
 		if ($fp == false) {
@@ -58,7 +58,7 @@ class FileManager {
 		fclose($fp);
 	}
 
-	static function writeToFile($file_path, $content)
+	public static function writeToFile($file_path, $content)
 	{
 		$fp = fopen($file_path, 'a+');
 		if ($fp == false) {

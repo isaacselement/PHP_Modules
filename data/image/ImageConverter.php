@@ -2,7 +2,7 @@
 
 class ImageConverter {
 
-	static function covertImage($src_img_path, $to_img_path, $to_img_type) {
+	public static function covertImage($src_img_path, $to_img_path, $to_img_type) {
 
 		$src_img_type = ImageAttribute::getType($src_img_path);
 		if ($src_img_type == $to_img_type) {

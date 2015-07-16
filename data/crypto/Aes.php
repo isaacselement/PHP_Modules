@@ -33,7 +33,7 @@ abstract class Aes {
 	}
 
 	// create the aes keys pool
-	static function getAesKeys($count, $aes_length = 32)
+	public static function getAesKeys($count, $aes_length = 32)
 	{
 		$result = [];
 		for($i = 0; $i < $count; $i++)	{

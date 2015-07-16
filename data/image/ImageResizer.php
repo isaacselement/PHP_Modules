@@ -2,12 +2,12 @@
 
 class ImageResizer {
 
-	static function convert_image($file, $output, $output_type) {
+	public static function convert_image($file, $output, $output_type) {
 		$image = self::get_image_data($file);
 		return self::save_image_data($image, $output, $output_type);
 	}
 
-	static function smart_resize_image($file, $final_width, $final_height, $output, $output_type) {
+	public static function smart_resize_image($file, $final_width, $final_height, $output, $output_type) {
 		$info = getimagesize($file);
 		list($width_old, $height_old) = $info;
 		$image = self::get_image_data($file);
