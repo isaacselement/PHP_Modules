@@ -39,6 +39,20 @@ class SQLClauser
 		
 		return $insert_clause;
 	}
+
+	public static function selectClause($table, $keysvalues) {
+		$select_clause = 'select * from ' . self::cockles($table) . ' where ';
+
+		$and_clause_arr = [];
+		foreach($keysvalues as $key => $value) {
+			$column = self::cockles($key);
+			$column_value = self::comma($value);
+			$and_clause_arr[] = $column . ' = ' . $column_value;
+		}
+		$where_clause = implode(' and ', $and_clause_arr);
+		$select_clause .= $where_clause . ';';
+		return $select_clause;
+	}
 }
 
 

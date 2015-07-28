@@ -43,6 +43,20 @@ class FileManager {
 		return $result;
 	}
 
+	public static function writeFilesToEcho($file_paths, $boundary)
+	{
+		$length = count($file_paths);
+		if ($length == 1) {
+			return self::writeFileToEcho($file_paths[0]);
+		}
+		for($i = 0; $i < $length; $i++) {
+			self::writeFileToEcho($file_paths[$i]);
+			if ($i != $length - 1) {
+				echo $boundary;
+			}
+		}
+	}
+
 	public static function writeFileToEcho($file_path)
 	{
 		$fp = fopen($file_path,'r');
@@ -50,9 +64,9 @@ class FileManager {
 			error_log('Read file ' . $file_path . ' failed');
 			return false;
 		}
-		$buffer = 1024;
+		$bufferSize = 1024;
 		while(!feof($fp)) {
-			$file_data = fread($fp, $buffer);
+			$file_data = fread($fp, $bufferSize);
 			echo $file_data;
 		}
 		fclose($fp);

@@ -3,9 +3,9 @@
 class CharAssembler {
 
 	public static function getOneRandomChar(){
-		$characters = array_merge(range(48, 57), range(65, 90), range(97, 123));
-		return chr(mt_rand(0, count($characters) - 1));
-
+		$characters = array_merge(range(48, 57), range(65, 90), range(97, 122));
+		return chr($characters[mt_rand(0, count($characters) - 1)]);
+		
 		# $characters = '0123456789abcdefghijklmnopqrxtuvwxyzABCDEFGHIJKLMNOPQRXTUVWXYZ';
 		# return $characters[mt_rand(0, strlen($characters) - 1)];
 		# return substr($characters,rand(0, strlen($characters) - 1),1);
