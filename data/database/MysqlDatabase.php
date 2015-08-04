@@ -1,5 +1,4 @@
-<?php
-
+<?php 
 class MysqlDatabase
 {
 	private static $instance = null;
@@ -33,8 +32,10 @@ class MysqlDatabase
 	public function __construct($server_ip, $server_port, $db_name, $db_user, $db_password) {
 		// connect the databases
 		$db_server = $server_ip . ':' . $server_port;
-		$this->connection = mysql_connect($db_server, $db_user, $db_password) or die ('sorry, cannot open mysql connection');
-		mysql_select_db($db_name, $this->connection);
+		$connection = mysql_connect($db_server, $db_user, $db_password) or die ('sorry, cannot open mysql connection');
+		$this->connection = $connection;
+		mysql_select_db($db_name, $connection);
+		mysql_query("set names utf8", $connection);
 	}
 
 	public function __destruct() {
@@ -50,7 +51,7 @@ class MysqlDatabase
 		$this->connection = null;
 	}
 
-	public function query($sql_clause, $iter_func) {
+	public function query($sql_clause, $iter_func, $result_type = MYSQL_BOTH) {
 		$result = mysql_query($sql_clause, $this->connection);
 		//echo '<br />' . $sql_clause . '<br />';
 		if (!$result) {
@@ -59,7 +60,7 @@ class MysqlDatabase
 		if (is_bool($result)) {
 			return;
 		}
-		while($row = mysql_fetch_array($result)) {
+		while($row = mysql_fetch_array($result, $result_type)) {
 			if(!is_null($iter_func)){
 				$iter_func($row);
 			}

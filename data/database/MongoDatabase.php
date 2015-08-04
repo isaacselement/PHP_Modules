@@ -28,7 +28,8 @@ class MongoDatabase
 			$db_server .= $db_user . ':' . $db_password . '@' ;
 		}
 		$db_server .= $server_ip . ':' . $server_port;	
-		$mongoClient = new Mongo($db_server);
+#		$mongoClient = new Mongo($db_server);		// the same as follow
+		$mongoClient = new MongoClient($db_server);
 		$this->mongoClient = $mongoClient;
 		$this->setCurrentDB($db_name);
 	}
