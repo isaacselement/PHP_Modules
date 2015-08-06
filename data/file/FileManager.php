@@ -2,10 +2,35 @@
 
 class FileManager {
 
-	public static function replaceExtension($filename, $new_extension) {
-		$info = pathinfo($filename);
-		return $info['dirname'] . '/' . $info['filename'] . '.' . $new_extension;
+	public static function autoInclude($className, $auto_load_paths) {
+		foreach ($auto_load_paths as $path) {
+			$files = self::listFilesRecursivelyIn($path);
+			foreach($files as $file) {
+				$base_name = basename($file, '.php');
+				if ($base_name == $className && is_readable($file) ) {
+					include($file);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
+	
+	public function autoIncludeNamespaceClass($className, $auto_load_paths){
+		foreach ($autoInclude as $path) {
+			$classFile = $path . DIRECTORY_SEPARATOR . str_replace('\\', DIRECTORY_SEPARATOR, ltrim($className, '\\')) . '.php';
+			if(is_readable($classFile)) {
+				include($classFile);
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function isNamaspaceClass($className){
+		return strpos($className, '\\') !== false;
+	}
+
 
 	public static function requireFilesIn($directory) {
 		$php_ex = substr($directory, -1) == '/' ? '*.php' : '/*.php';
@@ -30,7 +55,7 @@ class FileManager {
 			if($file == "." || $file == "..") {
 				continue;
 			}
-			
+
 			$file_path = $directory . DIRECTORY_SEPARATOR . $file;	
 			if (is_dir($file_path)) {
 				$subResult = self::listFilesRecursivelyIn($file_path);
@@ -81,6 +106,11 @@ class FileManager {
 		}
 		fwrite($fp, $content);
 		fclose($fp);
+	}
+	
+	public static function replaceExtension($filename, $new_extension) {
+		$info = pathinfo($filename);
+		return $info['dirname'] . '/' . $info['filename'] . '.' . $new_extension;
 	}
 }
 ?>

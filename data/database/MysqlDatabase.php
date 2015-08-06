@@ -7,19 +7,41 @@ class MysqlDatabase
 	}	
 	public static function getInstance() {
 		if(is_null(self::$instance)){
-			$clazz = get_called_class();
-			$self_clazz = get_class();		// should use get_class(), other than self.
-			if ($self_clazz == $clazz || is_subclass_of($clazz, $self_clazz)) {
-				self::setInstance(new $clazz);
+			$self_clazz = get_class();		// use get_class(), other than self.
+			$called_clazz = get_called_class();	// get the called class
+			if ($self_clazz == $called_clazz || is_subclass_of($called_clazz, $self_clazz)) {
+				self::setInstance(new $called_clazz);
 			}
 		}
 		return self::$instance;
 	}
 
+	// for multi mysql connect instance, i.e AMysqlDatabase/BMysqlDatabase .
+	private static $sharedInstances = null;
+	public static function sharedInstance() {
+		if (is_null(self::$sharedInstances)) {
+			self::$sharedInstances = [];
+		}
+		
+		$called_clazz = get_called_class();
+		if (!isset(self::$sharedInstances[$called_clazz])) { 
+			if (isset(self::$instance) && get_class(self::$instance) == $called_clazz) {
+				self::$sharedInstances[$called_clazz] = self::$instance;
+			} else {
+				$self_clazz = get_class();
+				if ($self_clazz == $called_clazz || is_subclass_of($called_clazz, $self_clazz)) {
+					self::$sharedInstances[$called_clazz] = new $called_clazz;
+				}
+			}
+		}
+
+		return self::$sharedInstances[$called_clazz];
+	}	
+
 	/*
 	// in subclass, define a non-parameters construct . then u can just use subclass::getInstance();	
 	public function __construct() {
-		$mysql_config = Config::get('mysql');
+		$mysql_config = Config::get('mysql_projectName');
 		$db_server_ip = $mysql_config['server_ip'];
 		$db_server_port = $mysql_config['server_port'];
 		$db_name = $mysql_config['database'];
@@ -28,6 +50,7 @@ class MysqlDatabase
 		parent::__construct($db_server_ip, $db_server_port, $db_name, $db_user, $db_password);
 	}
 	 */
+
 	private $connection = null;
 	public function __construct($server_ip, $server_port, $db_name, $db_user, $db_password) {
 		// connect the databases
@@ -47,7 +70,9 @@ class MysqlDatabase
 	}
 
 	public function closeConnection() {
-		mysql_close($this->connection);
+		if (is_resource($this->connection)) {
+			mysql_close($this->connection);
+		}
 		$this->connection = null;
 	}
 
