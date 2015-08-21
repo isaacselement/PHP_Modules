@@ -78,7 +78,7 @@ class MysqlDatabase
 
 	public function query($sql_clause, $iter_func, $result_type = MYSQL_BOTH) {
 		$result = mysql_query($sql_clause, $this->connection);
-		//echo '<br />' . $sql_clause . '<br />';
+		// echo '<br />' . $sql_clause . '<br />';
 		if (!$result) {
 			die('Invalid query: ' . mysql_error());
 		}
