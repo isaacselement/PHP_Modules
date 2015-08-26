@@ -84,6 +84,19 @@ class ImageResizer {
 
 		return true;
 	}
+
+	static function getImageTypeIdenfier($typestr) {
+		if ($typestr == 'png') {
+			return IMAGETYPE_PNG;
+		} elseif ($typestr == 'jpg') {
+			return IMAGETYPE_JPEG; 
+		} elseif ($typestr == 'jpeg') {
+			return IMAGETYPE_JPEG;
+		} elseif ($typestr == 'gif') {
+			return IMAGETYPE_GIF;
+		}
+		return null;
+	}
 }
 
 ?>
