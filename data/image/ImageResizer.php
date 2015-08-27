@@ -97,6 +97,34 @@ class ImageResizer {
 		}
 		return null;
 	}
+
+	static function imageTypeToExtension($image_path) {
+		$img_info = getimagesize($image_path);
+		return self::imageExtension($img_info[2]);
+	}
+
+	static function imageExtension($img_info_index_tow) {
+		$extensions = array(
+			IMAGETYPE_GIF => "gif",
+			IMAGETYPE_JPEG => "jpg",
+			IMAGETYPE_PNG => "png",
+			IMAGETYPE_SWF => "swf",
+			IMAGETYPE_PSD => "psd",
+			IMAGETYPE_BMP => "bmp",
+			IMAGETYPE_TIFF_II => "tiff",
+			IMAGETYPE_TIFF_MM => "tiff",
+			IMAGETYPE_JPC => "jpc",
+			IMAGETYPE_JP2 => "jp2",
+			IMAGETYPE_JPX => "jpx",
+			IMAGETYPE_JB2 => "jb2",
+			IMAGETYPE_SWC => "swc",
+			IMAGETYPE_IFF => "iff",
+			IMAGETYPE_WBMP => "wbmp",
+			IMAGETYPE_XBM => "xbm",
+			IMAGETYPE_ICO => "ico"
+		);
+		return $extensions[$img_info_index_tow];
+	}
 }
 
 ?>
